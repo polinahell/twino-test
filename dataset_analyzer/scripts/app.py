@@ -5,8 +5,10 @@ import data_analysis
 app = Flask(__name__)
 
 # Load the dataset
-file_path = "data/house_sales_dataset.csv"
+file_path = "data/kc_house_data.csv"
 df = data_processing.load_data(file_path)
+
+df.head()
 
 @app.route('/')
 def index():
