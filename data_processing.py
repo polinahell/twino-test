@@ -2,17 +2,13 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 
 def load_data(file_path):
-    """Load the dataset."""
-    return pd.read_csv(file_path)
-
-def load_data(file_path):
-    """Load the dataset."""
+    # Load the dataset
     return pd.read_csv(file_path)
 
 def clean_data(df):
-    """Perform data cleaning."""
-    # Drop unnecessary columns
-    df.drop(['id', 'Unnamed: 0'], axis=1, inplace=True)
+    # Check if the column exists before trying to drop it
+    if 'Unnamed: 0' in df.columns:
+        df.drop(['Unnamed: 0'], axis=1, inplace=True)
 
     # Add year and month columns
     df['date'] = pd.to_datetime(df['date'])
@@ -32,9 +28,7 @@ def clean_data(df):
     return df
 
 def get_summary_statistics(df):
-    """Get statistical summary of the data."""
     return df.describe()
 
 def get_floor_value_counts(df):
-    """Count the number of houses with unique floor values."""
     return df['floors'].value_counts().to_frame()
