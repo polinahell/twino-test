@@ -4,8 +4,6 @@ import data_analysis
 
 app = Flask(__name__)
 
-from flask import render_template
-
 @app.route('/some_route')
 def some_route():
     # Your data processing logic here...
@@ -21,7 +19,7 @@ def show_summary():
     df = data_processing.load_data(file_path)
     df = data_processing.clean_data(df)
     summary_statistics = data_processing.get_summary_statistics(df)
-    return render_template('summary.html', summary_statistics=summary_statistics)
+    return render_template('my_bootstrap_summary_statistics.html', summary_statistics=summary_statistics)
 
 @app.route('/floor_counts')
 def show_floor_counts():
@@ -29,7 +27,7 @@ def show_floor_counts():
     df = data_processing.load_data(file_path)
     df = data_processing.clean_data(df)
     floor_value_counts = data_processing.get_floor_value_counts(df)
-    return render_template('floor_counts.html', floor_value_counts=floor_value_counts)
+    return render_template('floor_counts.html', floor_counts=floor_value_counts)
 
 if __name__ == '__main__':
     app.run(debug=True)

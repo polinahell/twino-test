@@ -5,24 +5,52 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Floor Counts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        canvas {
+            margin-top: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+    <h2>Floor Counts</h2>
+    <canvas id="floorChart"></canvas>
 
-    <h1>Floor Counts</h1>
+    <script>
+        var floorCounts = {{ floor_counts | tojson | safe }};
+        var floorLabels = Object.keys(floorCounts);
+        var floorData = Object.values(floorCounts)
 
-    <table border="1">
-        <tr>
-            <th>Floor</th>
-            <th>Count</th>
-        </tr>
-
-        {% for floor, count in floor_counts.items() %}
-        <tr>
-            <td>{{ floor }}</td>
-            <td>{{ count }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-
+        var ctx = document.getElementById('floorChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: floorLabels,
+                datasets: [{
+                    label: 'Floor Counts',
+                    data: floorData,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>

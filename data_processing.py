@@ -31,4 +31,6 @@ def get_summary_statistics(df):
     return df.describe()
 
 def get_floor_value_counts(df):
-    return df['floors'].value_counts().to_frame()
+    floor_counts = df['floors'].value_counts()
+    floor_counts_dict = floor_counts.to_dict()
+    return floor_counts_dict
