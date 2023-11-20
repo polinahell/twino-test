@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- your head content -->
+</head>
+<body>
+    <h2>Deal Volume Over Time</h2>
+    <canvas id="dealVolumeChart"></canvas>
+
+    <script>
+        var dealVolumeData = {{ deal_volume_data | tojson | safe }};
+        var years = Object.keys(dealVolumeData);
+        
+        // Use fixed criteria, e.g., sqft_living and bedrooms
+        var criteriaValues = ['sqft_living', 'bedrooms'];
+        
+        var datasets = criteriaValues.map(function(criteriaValue) {
+            return {
+                label: criteriaValue,
+                data: years.map(function(year) {
+                    return dealVolumeData[year][criteriaValue];
+                }),
+                backgroundColor: getRandomColor(),
+                borderColor: getRandomColor(),
+                borderWidth: 1
+            };
+        });
+
+        var ctx = document.getElementById('dealVolumeChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: years,
+                datasets: datasets
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Function to generate random color
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+    </script>
+</body>
+</html>

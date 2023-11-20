@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Floor Counts</title>
+    <title>Average Price per Unit Over Time</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -22,22 +22,22 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <h2>Floor Counts</h2>
-    <canvas id="floorChart"></canvas>
+    <h2>Average Price per Unit Over Time</h2>
+    <canvas id="avgPricePerUnitChart"></canvas>
 
     <script>
-        var floorCounts = {{ floor_counts | tojson | safe }};
-        var floorLabels = Object.keys(floorCounts);
-        var floorData = Object.values(floorCounts)
+        var avgPricePerUnitData = {{ avg_price_per_unit | tojson | safe | replace("': ", '": ') | replace(", '", ', "').replace("{'", '{"').replace("'}", '"}') }};
+        var avgPricePerUnitLabels = Object.keys(avgPricePerUnitData);
+        var avgPricePerUnitValues = Object.values(avgPricePerUnitData);
 
-        var ctx = document.getElementById('floorChart').getContext('2d');
+        var ctx = document.getElementById('avgPricePerUnitChart').getContext('2d');
         var myChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
-                labels: floorLabels,
+                labels: avgPricePerUnitLabels,
                 datasets: [{
-                    label: 'Floor Counts',
-                    data: floorData,
+                    label: 'Average Price per Unit',
+                    data: avgPricePerUnitValues,
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     borderColor: 'rgba(75, 192, 192, 1)',
                     borderWidth: 1

@@ -6,12 +6,14 @@
     <title>Home</title>
 </head>
 <body>
-    <h1>Welcome to the House Sales Analysis App</h1>
+    <h1>Welcome to the House Analysis TWINO Test App</h1>
+    
     <p>Click the links below to view analysis results:</p>
     <ul>
-        <li><a href="{{ url_for('show_summary') }}">Summary Statistics</a></li>
-        <li><a href="{{ url_for('show_floor_counts') }}">Floor Value Counts</a></li>
-        <!-- Add more links as needed -->
+        <li><a href="{{ url_for('show_average_price_per_unit') }}">Average Price Per Unit</a></li>
+        <li><a href="{{ url_for('deal_volume_over_time', criteria='bedrooms') }}">Deal Volume Over Time by Bedrooms</a></li>
+
+
     </ul>
 </body>
 </html>

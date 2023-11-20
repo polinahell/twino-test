@@ -4,11 +4,6 @@ import data_analysis
 
 app = Flask(__name__)
 
-@app.route('/some_route')
-def some_route():
-    # Your data processing logic here...
-    return render_template('floor_counts.html', floor_counts=floor_counts_data)
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -19,15 +14,30 @@ def show_summary():
     df = data_processing.load_data(file_path)
     df = data_processing.clean_data(df)
     summary_statistics = data_processing.get_summary_statistics(df)
-    return render_template('my_bootstrap_summary_statistics.html', summary_statistics=summary_statistics)
+    return render_template('summary.html', summary_statistics=summary_statistics)
 
-@app.route('/floor_counts')
-def show_floor_counts():
+@app.route('/show_average_price_per_unit')
+def show_average_price_per_unit():
     file_path = "data/kc_house_data.csv"
     df = data_processing.load_data(file_path)
     df = data_processing.clean_data(df)
-    floor_value_counts = data_processing.get_floor_value_counts(df)
-    return render_template('floor_counts.html', floor_counts=floor_value_counts)
+    avg_price_per_unit, plot_filename = data_analysis.analyze_avg_price_per_unit_over_time(df)
+    return render_template('average_price_per_unit.html', avg_price_per_unit=avg_price_per_unit, plot_filename=plot_filename)
+
+@app.route('/deal_volume_over_time/<criteria>')
+def deal_volume_over_time(criteria):
+    # Load the dataset
+    file_path = "data/kc_house_data.csv"
+    df = data_processing.load_data(file_path)
+
+    # Clean the data
+    df = data_processing.clean_data(df)
+
+    # Analyze deal volume based on the specified criteria (bedrooms)
+    data_analysis.analyze_deal_volume_over_time_by_criteria(df, criteria)
+
+    return render_template('deal_volume_over_time.html', criteria=criteria)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
